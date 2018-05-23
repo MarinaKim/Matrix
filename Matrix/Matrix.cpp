@@ -1,99 +1,147 @@
+#include "matrix.h"
 
-#include"Matrix.h"
-//•	Конструктор по умолчанию
-template <typename T>
-Matrix<T>::Matrix() {
+template<typename T>
+matrix<T>::matrix()//констурктор по умолчанию
+{
 	els = nullptr;
 	cols = 0;
 	rows = 0;
 }
 
-//•	Конструктор создающий матрицу  заданного размера и
-//инициализирующий все элементы указанным значением.
-//По умолчанию значение равно нулю
-template <typename T>
-Matrix<T>::Matrix(int rows, int rols, T e = 0)
+template<typename T> //констурктор с заданными значениями
+inline matrix<T>::matrix(size_t rows, size_t cols, T e)
 {
 	this->rows = rows;
 	this->cols = cols;
 
 	this->els = new T*[rows];
-	for (int i = 0;i < rows;i++)
+	for (int i = 0; i < rows; i++)
 		this->els[i] = new T[cols];
 
-	for (int i = 0;i < rows;i++)
-		for (int j = 0;i < cols;j++)
+	for (int i = 0; i < rows; i++)
+		for (int j = 0; j < cols; j++)
 			this->els[i][j] = e;
 }
 
-//•	Конструктор создающий матрицу из существующего массива
-template <typename T>
-Matrix<T>::Matrix(T*arr, int rows) {
-	int count=arr
-}
-
-//copy constructor
-template <typename T>
-Matrix<T>::Matrix(const Matrix& obj) {
-	rows = obj.rows;
-	cols = obj.cols
-		for (int i = 0;i < rows;i++)
-			els[i] = new T[cols];
-	for (int i = 0;i < rows;i++)
-		for (int j = 0;j < cols;j++)
-			els[i][j] = obj.els[i][j];
-}
 
 template<typename T>
-Matrix Matrix<T>::operator+(const Matrix<T>& obj)
+matrix<T>::matrix(T * arr, int rows)
 {
-	if (this->rows == obj.rows&&this->cols == obj.cols) {
-		for (int i = 0;i < obj.rows;i++) {
-			for (int j = 0;j < obj.cols;j++) {
-				this->els[i][j] += obj.els[i][j];
-			}
-		}
-	}
-	return *this;
+
 }
 
-//destructor
-template <typename T>
-Matrix<T>::~Matrix() {
-	for (int i = 0;i < rows;i++)
-		delete[] els[i];
-	delete els;
+
+template<typename T> //копирование
+inline matrix<T>::matrix(const matrix & obj)
+{
+	this->rows = obj.rows;
+	this->cols = obj.cols;
+	this->els = new T*[rows];
+	for (int i = 0; i < rows; i++)
+		this->els[i] = new T[cols];
+
+	for (int i = 0; i < rows; i++)
+		for (int j = 0; j < cols; j++)
+			this->els[i][j] = obj.els[i][j];
 }
 
-/*
-vector vector:: operator+(const vector &obj)
+template<typename T> //деструктор
+matrix<T>::~matrix()
 {
-	if (this->cur_size == obj.cur_size) {
-		for (int i = 0; i < cur_size; i++)
-		{
-			els[i] += obj.els[i];
-		}
+	for (int i = 0; i < rows; i++)
+		delete[]els[i];
+	delete[] els;
+}
+
+template<typename T> //оператор ввода
+istream & operator >> (istream & is, matrix<T>& a)
+{
+	for (int i = 0; i < a.rows; i++)
+	{
+		for (int j = 0; j < a.cols; j++)
+			is >> a.els[i][j];
 	}
-	return *this;
-}*/
-template<typename T>
-ostream & operator<<(ostream & os, Matrix<T>& obj)
+	return is;
+}
+
+template<typename T> //оператор вывода
+ostream & operator<<(ostream & os, matrix<T> a)
 {
-	for (int i = 0;i < obj.rows;i++) {
-		for (int j = 0;j < obj.cols;j++) {
-			os << obj[i][j] << "\t";
-		}
+	for (int i = 0; i < a.rows; i++)
+	{
+		for (int j = 0; j < a.cols; j++)
+			os << a.els[i][j] << "\t";
+		os << endl;
 	}
 	return os;
 }
 
+
 template<typename T>
-istream & operator >> (istream & in, Matrix<T>& obj)
+matrix<T> matrix<T>::operator=(const matrix<T> & obj)
 {
-	for (int i = 0;i < obj.rows;i++) {
-		for (int j = 0;j < obj.cols;j++) {
-			in << obj[i][j];
+	this->rows = obj.rows;
+	this->cols = obj.cols;
+	this->els = new T*[rows];
+	for (int i = 0; i < rows; i++)
+		this->els[i] = new T[cols];
+
+	for (int i = 0; i < rows; i++)
+		for (int j = 0; j < cols; j++)
+			this->els[i][j] = obj.els[i][j];
+	return *this;
+}
+
+template<typename T>
+matrix<T> matrix<T>::operator+(const matrix<T>& obj)
+{
+	matrix <T> tmp;
+
+	if (this->rows > obj.rows)
+		tmp.rows = this->rows;
+	else tmp.rows = obj.rows;
+
+	if (this->cols > obj.cols)
+		tmp.cols = this->cols;
+	else tmp.cols = obj.cols;
+
+	tmp.els = new T*[tmp.rows];
+	for (int i = 0; i < rows; i++)
+		tmp.els[i] = new T[tmp.cols];
+
+	for (int i = 0; i < tmp.rows; i++)
+	{
+		for (int j = 0; j < tmp.cols; j++)
+		{
+			tmp.els[i][j] = this->els[i][j] + obj.els[i][j];
 		}
 	}
-	return in;
+	return tmp;
+}
+
+template<typename T>
+matrix<T> matrix<T>::operator+(int a)
+{
+	for (int i = 0; i < rows; i++)
+		for (int j = 0; j <cols; j++)
+			this->els[i][j] += a;
+	return *this;
+}
+
+template<typename T>
+matrix<T> matrix<T>::operator++()
+{
+	for (int i = 0; i < rows; i++)
+		for (int j = 0; j < cols; j++)
+			this->els[i][j] += 1;
+	return *this;
+}
+
+template<typename T>
+matrix<T> matrix<T>::operator--()
+{
+	for (int i = 0; i < rows; i++)
+		for (int j = 0; j < cols; j++)
+			this->els[i][j] -= 1;
+	return *this;
 }

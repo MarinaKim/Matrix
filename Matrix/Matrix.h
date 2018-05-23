@@ -1,23 +1,30 @@
 #pragma once
 #include"Library.h"
 template <typename T>
-
-class Matrix {
-private:
-	T**els;
-	size_t cols;
+class matrix {
+	T** els;
 	size_t rows;
-public:
-	Matrix();
-	Matrix(int rows, int rols, T e = 0);
-	Matrix(T*arr, int rows);
+	size_t cols;
 
-	Matrix(const Matrix<T>& obj);
-	template <typename T>
-	friend ostream& operator<<(ostream& os, Matrix<T> &obj);
-	template <typename T>
-	friend istream& operator >> (istream& is, Matrix<T>& obj);
-	
-	Matrix operator+(const Matrix<T> &obj);
-	~Matrix();
+public:
+	matrix();
+	matrix(size_t rows, size_t cols, T e = 0);
+	matrix(T*arr, int rows);
+	matrix(const matrix &obj);
+	~matrix();
+
+	template<typename T>
+	friend istream &operator >> (istream &is, matrix<T> & a);
+	template<typename T>
+	friend ostream &operator <<(ostream &os, matrix<T> a);
+
+	matrix operator=(const matrix <T> &obj);
+	matrix operator+(const matrix <T> &obj);
+	matrix operator+(int a);
+	matrix operator++();
+	matrix operator--();
+
+
+	//matrix operator();
+
 };
