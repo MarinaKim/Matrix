@@ -87,7 +87,7 @@ int main() {
 
 		//Перегрузить операции ввода/вывода как дружественные функции
 	case 6: {
-		matrix <int> arr(3, 4);
+		matrix <int> mas(3, 4);
 		cout << "матрица, считанная из файла:\n";
 
 		ifstream in_file("in.txt");
@@ -96,11 +96,11 @@ int main() {
 		}
 		else {
 			while (!in_file.eof()) {
-				in_file >> arr;
+				in_file >> mas;
 			}
 		}
 		in_file.close();
-		cout << arr;
+		cout << mas;
 	}break;
 
 		/*Реализовать методы:

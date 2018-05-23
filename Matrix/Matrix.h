@@ -23,8 +23,4 @@ public:
 	matrix operator+(int a);
 	matrix operator++();
 	matrix operator--();
-
-
-	//matrix operator();
-
 };
